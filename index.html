@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AirdropInfo - Informasi & Berita Airdrop Crypto Terbaru</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #0a0e17;
+            color: #e0e0e0;
+        }
+
+        /* ===== NAVBAR ===== */
+        nav {
+            background: linear-gradient(135deg, #0f1724, #1a2332);
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid #1e3a5f;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.5);
+        }
+
+        .logo {
+            font-size: 26px;
+            font-weight: bold;
+            color: #00d4ff;
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: #ffffff;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: #b0b0b0;
+            text-decoration: none;
+            font-size: 15px;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #00d4ff;
+        }
+
+        /* ===== HERO ===== */
+        .hero {
+            text-align: center;
+            padding: 100px 20px 80px;
+            background: linear-gradient(180deg, #0f1724 0%, #0a1628 50%, #0a0e17 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 50% 50%, rgba(0, 212, 255, 0.05) 0%, transparent 50%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 1; }
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            color: #ffffff;
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .hero h1 span {
+            color: #00d4ff;
+        }
+
+        .hero p {
+            font-size: 18px;
+            color: #8899aa;
+            max-width: 600px;
+            margin: 0 auto 30px;
+            position: relative;
+        }
+
+        .hero-btn {
+            display: inline-block;
+            padding: 14px 40px;
+            background: linear-gradient(135deg, #00d4ff, #0088cc);
+            color: #fff;
+            border: none;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: bold;
+            text-decoration: none;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+        }
+
+        .hero-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.3);
+        }
+
+        /* ===== STATS ===== */
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+            padding: 40px 20px;
+            background: #0d1320;
+            border-top: 1px solid #1e2d3d;
+            border-bottom: 1px solid #1e2d3d;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 36px;
+            font-weight: bold;
+            color: #00d4ff;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: #8899aa;
+            margin-top: 5px;
+        }
+
+        /* ===== SECTION TITLE ===== */
+        .section-title {
+            text-align: center;
+            padding: 60px 20px 30px;
+        }
+
+        .section-title h2 {
+            font-size: 32px;
+            color: #ffffff;
+            margin-bottom: 10px;
+        }
+
+        .section-title h2 span {
+            color: #00d4ff;
+        }
+
+        .section-title p {
+            color: #8899aa;
+            font-size: 16px;
+        }
+
+        /* ===== AIRDROP CARDS ===== */
+        .airdrop-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+            padding: 20px 40px 60px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .airdrop-card {
+            background: linear-gradient(145deg, #111b2a, #0d1520);
+            border: 1px solid #1e3a5f;
+            border-radius: 16px;
+            padding: 25px;
+            transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+        }
+
+        .airdrop-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.1);
+            border-color: #00d4ff;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .card-header h3 {
+            font-size: 20px;
+            color: #ffffff;
+        }
+
+        .badge {
+            padding: 5px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .badge-active {
+            background: rgba(0, 212, 100, 0.15);
+            color: #00d464;
+            border: 1px solid #00d464;
+        }
+
+        .badge-upcoming {
+            background: rgba(255, 193, 7, 0.15);
+            color: #ffc107;
+            border: 1px solid #ffc107;
+        }
+
+        .badge-ended {
+            background: rgba(255, 60, 60, 0.15);
+            color: #ff3c3c;
+            border: 1px solid #ff3c3c;
+        }
+
+        .card-info {
+            margin: 15px 0;
+        }
+
+        .card-info p {
+            color: #8899aa;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .card-detail {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-top: 1px solid #1e2d3d;
+            font-size: 14px;
+        }
+
+        .card-detail span:first-child {
+            color: #8899aa;
+        }
+
+        .card-detail span:last-child {
+            color: #00d4ff;
+            font-weight: bold;
+        }
+
+        .card-btn {
+            display: block;
+            text-align: center;
+            padding: 12px;
+            margin-top: 15px;
+            background: linear-gradient(135deg, #00d4ff, #0088cc);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: bold;
+            text-decoration: none;
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+
+        .card-btn:hover {
+            opacity: 0.85;
+        }
+
+        /* ===== CARA IKUT ===== */
+        .guide {
+            background: #0d1320;
+            padding: 60px 40px;
+            border-top: 1px solid #1e2d3d;
+            border-bottom: 1px solid #1e2d3d;
+        }
+
+        .guide-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .guide-step {
+            text-align: center;
+            padding: 30px 20px;
+        }
+
+        .step-number {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #00d4ff, #0088cc);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: #fff;
+            margin: 0 auto 20px;
+        }
+
+        .guide-step h3 {
+            color: #ffffff;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .guide-step p {
+            color: #8899aa;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        /* ===== BERITA ===== */
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 25px;
+            padding: 20px 40px 60px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .news-card {
+            background: linear-gradient(145deg, #111b2a, #0d1520);
+            border: 1px solid #1e2d3d;
+            border-radius: 16px;
+            overflow: hidden;
+            transition: transform 0.3s, border-color 0.3s;
+        }
+
+        .news-card:hover {
+            transform: translateY(-5px);
+            border-color: #00d4ff;
+        }
+
+        .news-img {
+            width: 100%;
+            height: 180px;
+            background: linear-gradient(135deg, #1a2a3a, #0d1a2a);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 50px;
+        }
+
+        .news-content {
+            padding: 20px;
+        }
+
+        .news-date {
+            color: #00d4ff;
+            font-size: 12px;
+            margin-bottom: 8px;
+        }
+
+        .news-content h3 {
+            color: #ffffff;
+            font-size: 18px;
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+
+        .news-content p {
+            color: #8899aa;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .news-link {
+            display: inline-block;
+            margin-top: 12px;
+            color: #00d4ff;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .news-link:hover {
+            text-decoration: underline;
+        }
+
+        /* ===== FAQ ===== */
+        .faq {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px 40px 60px;
+        }
+
+        .faq-item {
+            background: #111b2a;
+            border: 1px solid #1e2d3d;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            padding: 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #ffffff;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .faq-question:hover {
+            color: #00d4ff;
+        }
+
+        .faq-arrow {
+            transition: transform 0.3s;
+            color: #00d4ff;
+            font-size: 18px;
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+        }
+
+        .faq-answer.open {
+            max-height: 200px;
+            padding: 0 20px 20px;
+        }
+
+        .faq-answer p {
+            color: #8899aa;
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            background: #070b12;
+            padding: 40px;
+            text-align: center;
+            border-top: 1px solid #1e2d3d;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 20px;
+        }
+
+        .footer-links a {
+            color: #8899aa;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .footer-links a:hover {
+            color: #00d4ff;
+        }
+
+        .footer-copy {
+            color: #556677;
+            font-size: 13px;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 32px; }
+            .stats { flex-direction: column; gap: 20px; }
+            .nav-links { display: none; }
+            .airdrop-grid, .news-grid { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav>
+        <a href="#" class="logo">Airdrop<span>Info</span></a>
+        <ul class="nav-links">
+            <li><a href="#airdrops">Airdrop</a></li>
+            <li><a href="#guide">Cara Ikut</a></li>
+            <li><a href="#news">Berita</a></li>
+            <li><a href="#faq">FAQ</a></li>
+        </ul>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+        <h1>Temukan <span>Airdrop Crypto</span><br>Terbaru & Terpercaya</h1>
+        <p>Dapatkan informasi airdrop gratis, panduan lengkap, dan berita terkini dari dunia cryptocurrency.</p>
+        <div style="margin: 20px auto; padding: 15px 30px; background: rgba(0,212,255,0.08); border: 1px solid #1e3a5f; border-radius: 12px; display: inline-block; position: relative;">
+            <p style="color: #ffffff; font-size: 15px; margin-bottom: 5px;"><strong>Nama :</strong> M.Irvan Al Gani</p>
+            <p style="color: #ffffff; font-size: 15px; margin-bottom: 5px;"><strong>NIM :</strong> 261011400263</p>
+            <p style="color: #ffffff; font-size: 15px;"><strong>Kelas :</strong> 01TPLE006</p>
+        </div>
+        <br><br>
+        <a href="#airdrops" class="hero-btn">🚀 Jelajahi Airdrop</a>
+    </section>
+
+    <!-- STATS -->
+    <section class="stats">
+        <div class="stat-item">
+            <div class="stat-number">150+</div>
+            <div class="stat-label">Total Airdrop</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number">45</div>
+            <div class="stat-label">Airdrop Aktif</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number">$2.5M+</div>
+            <div class="stat-label">Total Reward</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number">50K+</div>
+            <div class="stat-label">Pengguna</div>
+        </div>
+    </section>
+
+    <!-- AIRDROP LIST -->
+    <section id="airdrops">
+        <div class="section-title">
+            <h2>Airdrop <span>Terbaru</span></h2>
+            <p>Daftar airdrop crypto yang sedang berlangsung dan akan datang</p>
+        </div>
+
+        <div class="airdrop-grid">
+            <!-- Card 1 -->
+            <div class="airdrop-card">
+                <div class="card-header">
+                    <h3>🪙 LayerZero (ZRO)</h3>
+                    <span class="badge badge-active">Aktif</span>
+                </div>
+                <div class="card-info">
+                    <p>Protokol interoperabilitas omnichain yang memungkinkan transfer pesan antar blockchain. Klaim token ZRO untuk pengguna aktif.</p>
+                    <div class="card-detail">
+                        <span>Estimasi Reward</span>
+                        <span>$500 - $5,000</span>
+                    </div>
+                    <div class="card-detail">
+                        <span>Platform</span>
+                        <span>Multi-chain</span>
+                    </div>
+                    <div class="card-detail">
+                        <span>Deadline</span>
+                        <span>31 Des 2026</span>
+                    </div>
+                </div>
+                <a href="layerzero.html" class="card-btn">Ikuti Airdrop →</a>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="airdrop-card">
+                <div class="card-header">
+                    <h3>🔮 Starknet (STRK)</h3>
+                    <span class="badge badge-active">Aktif</span>
+                </div>
+                <div class="card-info">
+                    <p>Layer 2 Ethereum menggunakan teknologi ZK-Rollup. Gunakan ekosistem Starknet untuk mendapatkan alokasi token STRK.</p>
+                    <div class="card-detail">
+                        <span>Estimasi Reward</span>
+                        <span>$200 - $3,000</span>
+                    </div>
+                    <div class="card-detail">
+                        <span>Platform</span>
+                        <span>Ethereum L2</span>
+                    </div>
+                    <div class="card-detail">
+                        <span>Deadline</span>
+                        <span>15 Jan 2027</span>
+                    </div>
+                </div>
+                <a href="starknet.html" class="card-btn">Ikuti Airdrop →</a>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="airdrop-card">
+                <div class="card-header">
+                    <h3>⚡ zkSync (ZK)</h3>
+                    <span class="badge badge-upcoming">Segera</span>
+                </div>
+                <div class="card-info">
+                    <p>Solusi scaling Ethereum berbasis zero-knowledge proof. Lakukan transaksi di ekosistem zkSync Era untuk potensi airdrop.</p>
+                    <div class="card-detail">
+                        <span>Estimasi Reward</span>
+                        <span>$300 - $4,000</span>
+                    </div>
+                    <div class="card-detail">
+                        <span>Platform</span>
+                        <span>Ethereum L2</span>
+                    </div>
+                    <div class="card-detail">
+                        <span>Deadline</span>
+                        <span>TBA</span>
+                    </div>
+                </div>
+                <a href="zksync.html" class="card-btn">Ikuti Airdrop →</a>
+            </div>
+
+            <!-- Card 4 -->
+            <div class="airdrop-card">
+                <div class="card-header">
+                    <h3>🌊 Scroll (SCR)</h3>
+                    <span class="badge badge-active">Aktif</span>
+                </div>
+                <div class="card-info">
+                    <p>zkEVM Layer 2 solution untuk Ethereum. Bridge aset dan gunakan DApps di Scroll untuk mendapatkan token SCR.</p>
+                    <div class="card-detail">
+                        <span>Estimasi Reward</span>
+                        <span>$100 - $2,500</span>
+                    </div>
+                    <div class="card-detail">
+                        <span>Platform</span>
+                        <span>Ethereum L2</span>
+                    </div>
+                    <div class="card-detail">
+                        <span>Deadline</span>
+                        <span>28 Feb 2027</span>
+                    </div>
+                </div>
+                <a href="scroll.html" class="card-btn">Ikuti Airdrop →</a>
+            </div>
+
+            <!-- Card 5 -->
+            <div class="airdrop-card">
+                <div class="card-header">
+                    <h3>🌐 Monad (MON)</h3>
+                    <span class="badge badge-upcoming">Segera</span>
+                </div>
+                <div class="card-info">
+                    <p>Blockchain Layer 1 berkecepatan tinggi dengan kompatibilitas EVM. Ikuti testnet dan komunitas untuk potensi airdrop besar.</p>
+                    <div class="card-detail">
+                        <span>Estimasi Reward</span>
+                        <span>$500 - $10,000</span>
+                    </div>
+                    <div class="card-detail">
+                        <span>Platform</span>
+                        <span>Layer 1</span>
+                    </div>
+                    <div class="card-detail">
+                        <span>Deadline</span>
+                        <span>TBA</span>
+                    </div>
+                </div>
+                <a href="monad.html" class="card-btn">Ikuti Airdrop →</a>
+            </div>
+
+            <!-- Card 6 -->
+            <div class="airdrop-card">
+                <div class="card-header">
+                    <h3>🎮 Blast (BLAST)</h3>
+                    <span class="badge badge-ended">Selesai</span>
+                </div>
+                <div class="card-info">
+                    <p>Layer 2 Ethereum dengan native yield untuk ETH dan stablecoin. Airdrop telah selesai didistribusikan.</p>
+                    <div class="card-detail">
+                        <span>Total Distribusi</span>
+                        <span>$500M+</span>
+                    </div>
+                    <div class="card-detail">
+                        <span>Platform</span>
+                        <span>Ethereum L2</span>
+                    </div>
+                    <div class="card-detail">
+                        <span>Status</span>
+                        <span>Claimed</span>
+                    </div>
+                </div>
+                <a href="#" class="card-btn" style="background: #333; cursor: default;">Sudah Berakhir</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- CARA IKUT -->
+    <section class="guide" id="guide">
+        <div class="section-title">
+            <h2>Cara Ikut <span>Airdrop</span></h2>
+            <p>Langkah mudah untuk mendapatkan token gratis</p>
+        </div>
+
+        <div class="guide-grid">
+            <div class="guide-step">
+                <div class="step-number">1</div>
+                <h3>Siapkan Wallet</h3>
+                <p>Buat wallet crypto seperti MetaMask atau Trust Wallet. Pastikan simpan seed phrase dengan aman.</p>
+            </div>
+            <div class="guide-step">
+                <div class="step-number">2</div>
+                <h3>Pilih Airdrop</h3>
+                <p>Pilih airdrop yang sedang aktif. Baca syarat dan ketentuan sebelum mengikuti.</p>
+            </div>
+            <div class="guide-step">
+                <div class="step-number">3</div>
+                <h3>Selesaikan Tugas</h3>
+                <p>Ikuti langkah yang diminta seperti follow sosmed, join Discord, atau gunakan platform.</p>
+            </div>
+            <div class="guide-step">
+                <div class="step-number">4</div>
+                <h3>Klaim Reward</h3>
+                <p>Setelah airdrop berakhir, klaim token yang didapat ke wallet kamu. Selamat! 🎉</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- BERITA -->
+    <section id="news">
+        <div class="section-title">
+            <h2>Berita <span>Terkini</span></h2>
+            <p>Update terbaru dari dunia airdrop dan cryptocurrency</p>
+        </div>
+
+        <div class="news-grid">
+            <div class="news-card">
+                <div class="news-img">📰</div>
+                <div class="news-content">
+                    <div class="news-date">20 November 2026</div>
+                    <h3>LayerZero Season 2 Airdrop Dikonfirmasi, Reward Lebih Besar!</h3>
+                    <p>Tim LayerZero mengumumkan season 2 airdrop dengan total alokasi 100 juta token ZRO untuk pengguna aktif.</p>
+                    <a href="#" class="news-link">Baca Selengkapnya →</a>
+                </div>
+            </div>
+
+            <div class="news-card">
+                <div class="news-img">🔥</div>
+                <div class="news-content">
+                    <div class="news-date">18 November 2026</div>
+                    <h3>Monad Testnet Resmi Dibuka, Potensi Airdrop Besar Menanti</h3>
+                    <p>Monad membuka akses testnet untuk publik. Pengguna awal berpotensi mendapat alokasi airdrop besar.</p>
+                    <a href="#" class="news-link">Baca Selengkapnya →</a>
+                </div>
+            </div>
+
+            <div class="news-card">
+                <div class="news-img">⚠️</div>
+                <div class="news-content">
+                    <div class="news-date">15 November 2026</div>
+                    <h3>Waspada Airdrop Scam! Tips Menghindari Penipuan Crypto</h3>
+                    <p>Meningkatnya kasus penipuan berkedok airdrop. Kenali ciri-ciri scam dan cara melindungi aset kamu.</p>
+                    <a href="#" class="news-link">Baca Selengkapnya →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq">
+        <div class="section-title">
+            <h2>Pertanyaan <span>Umum (FAQ)</span></h2>
+            <p>Jawaban untuk pertanyaan yang sering ditanyakan</p>
+        </div>
+
+        <div class="faq">
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <span>Apa itu Airdrop Crypto?</span>
+                    <span class="faq-arrow">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Airdrop adalah distribusi token atau koin cryptocurrency secara gratis kepada pengguna. Biasanya dilakukan oleh proyek baru sebagai strategi marketing untuk meningkatkan awareness dan adopsi.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <span>Apakah Airdrop itu gratis?</span>
+                    <span class="faq-arrow">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Ya, airdrop pada dasarnya gratis. Kamu hanya perlu menyelesaikan tugas tertentu seperti menggunakan platform, follow media sosial, atau bergabung komunitas. Jangan pernah memberikan private key atau seed phrase!</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <span>Bagaimana cara menghindari airdrop scam?</span>
+                    <span class="faq-arrow">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Jangan pernah share private key atau seed phrase. Jangan klik link mencurigakan. Verifikasi informasi dari website dan sosmed resmi proyek. Jangan kirim uang untuk "klaim" airdrop.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <span>Wallet apa yang direkomendasikan?</span>
+                    <span class="faq-arrow">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p>MetaMask adalah pilihan paling populer untuk airdrop berbasis EVM (Ethereum, BSC, Polygon, dll). Untuk multi-chain, bisa menggunakan Trust Wallet atau Rabby Wallet.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-links">
+            <a href="#airdrops">Airdrop</a>
+            <a href="#guide">Cara Ikut</a>
+            <a href="#news">Berita</a>
+            <a href="#faq">FAQ</a>
+        </div>
+        <p class="footer-copy">© 2026 AirdropInfo. All rights reserved. | Dibuat oleh M.Irvan Al Gani</p>
+    </footer>
+
+    <!-- JAVASCRIPT -->
+    <script>
+        function toggleFaq(element) {
+            const answer = element.nextElementSibling;
+            const arrow = element.querySelector('.faq-arrow');
+
+            if (answer.classList.contains('open')) {
+                answer.classList.remove('open');
+                arrow.style.transform = 'rotate(0deg)';
+            } else {
+                // Tutup semua FAQ lain
+                document.querySelectorAll('.faq-answer').forEach(a => a.classList.remove('open'));
+                document.querySelectorAll('.faq-arrow').forEach(a => a.style.transform = 'rotate(0deg)');
+
+                answer.classList.add('open');
+                arrow.style.transform = 'rotate(180deg)';
+            }
+        }
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>
